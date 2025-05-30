@@ -1,18 +1,15 @@
 class Solution {
 public:
-    TreeNode* prev = nullptr;
-    int minDiff = INT_MAX;
-    void inorder(TreeNode* node) {
-        if (node==NULL) return;
-        inorder(node->left);
-        if(prev != NULL){
-            minDiff = min(minDiff, node->val - prev->val);
-        }
-        prev = node;
-        inorder(node->right);
+    int diff = INT_MAX;
+    TreeNode *prev = NULL;
+    void dfs(TreeNode *root) {
+        if (root->left) dfs(root->left);
+        if (prev) diff = min(diff, abs(prev->val - root->val));
+        prev = root;
+        if (root->right) dfs(root->right);
     }
-    int minDiffInBST(TreeNode* root){
-        inorder(root);
-        return minDiff;
+    int getMinimumDifference(TreeNode *root) {
+        dfs(root);
+        return diff;
     }
 };
